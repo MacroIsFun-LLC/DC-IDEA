@@ -4,20 +4,20 @@
 #include <StaticConstants.au3>
 
 Func _OpenMapEditorGUI($hParent)
-    Local $hMapGUI = GUICreate("Map Editor", 1000, 600, -1, -1, BitOR($WS_MAXIMIZEBOX, $WS_MINIMIZEBOX, $WS_SIZEBOX, $WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hMapGUI = GUICreate("Map Editor", 1100, 650, -1, -1, BitOR($WS_MAXIMIZEBOX, $WS_MINIMIZEBOX, $WS_SIZEBOX, $WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
     ; Left Sidebar (Tools)
-    GUICtrlCreateGroup("Tools", 10, 10, 180, 500)
-    GUICtrlCreateButton("Paint Tiles", 20, 30, 160, 30)
-    GUICtrlCreateButton("Erase Tiles", 20, 70, 160, 30)
-    GUICtrlCreateButton("Place Object", 20, 110, 160, 30)
+    GUICtrlCreateGroup("Tools", 10, 10, 200, 550)
+    GUICtrlCreateButton("Paint Tiles", 25, 40, 170, 35)
+    GUICtrlCreateButton("Erase Tiles", 25, 85, 170, 35)
+    GUICtrlCreateButton("Place Object", 25, 130, 170, 35)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
     ; Main Drawing Area
-    GUICtrlCreateLabel("", 200, 10, 780, 580, $SS_SUNKEN)
+    GUICtrlCreateLabel("", 220, 10, 865, 630, $SS_SUNKEN)
     GUICtrlSetBkColor(-1, 0x000000)
     
-    Local $btnClose = GUICtrlCreateButton("Close Editor", 10, 550, 180, 30)
+    Local $btnClose = GUICtrlCreateButton("Close Editor", 10, 590, 200, 35)
     
     GUISetState(@SW_SHOW, $hMapGUI)
     

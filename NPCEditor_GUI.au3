@@ -6,36 +6,36 @@
 #include <ComboConstants.au3>
 
 Func _OpenNPCEditorGUI($hParent)
-    Local $hNPCGUI = GUICreate("Npc Editor", 500, 450, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hNPCGUI = GUICreate("Npc Editor", 600, 540, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Name:", 20, 20, 50, 20)
-    GUICtrlCreateInput("", 75, 18, 250, 22)
+    GUICtrlCreateLabel("Name:", 25, 20, 60, 24)
+    GUICtrlCreateInput("", 95, 18, 280, 24)
     
     ; Attributes Group
-    GUICtrlCreateGroup("Attributes", 20, 60, 200, 200)
+    GUICtrlCreateGroup("Attributes", 25, 65, 260, 340)
     Local $aAttribs = ["Strength", "Intelligence", "Dexterity", "Constitution", "Health", "Max Health", "Level", "Mana", "Armorclass"]
     For $i = 0 To UBound($aAttribs) - 1
-        GUICtrlCreateLabel($aAttribs[$i] & ":", 35, 85 + ($i * 25), 80, 20)
-        GUICtrlCreateInput("", 120, 82 + ($i * 25), 80, 20, $ES_NUMBER)
+        GUICtrlCreateLabel($aAttribs[$i] & ":", 40, 105 + ($i * 32), 110, 24)
+        GUICtrlCreateInput("", 160, 102 + ($i * 32), 100, 24, $ES_NUMBER)
     Next
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
     ; Alignment Group
-    GUICtrlCreateGroup("Alignment", 240, 60, 240, 80)
-    Local $btnGood = GUICtrlCreateButton("Good", 255, 85, 60, 25)
-    Local $btnNeutral = GUICtrlCreateButton("Neutral", 325, 85, 60, 25)
-    Local $btnEvil = GUICtrlCreateButton("Evil", 395, 85, 60, 25)
+    GUICtrlCreateGroup("Alignment", 310, 65, 265, 110)
+    Local $btnGood = GUICtrlCreateButton("Good", 325, 105, 75, 35)
+    Local $btnNeutral = GUICtrlCreateButton("Neutral", 405, 105, 75, 35)
+    Local $btnEvil = GUICtrlCreateButton("Evil", 485, 105, 75, 35)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    GUICtrlCreateLabel("Activity:", 240, 160, 60, 20)
-    GUICtrlCreateCombo("", 310, 158, 150, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Activity:", 310, 195, 90, 24)
+    GUICtrlCreateCombo("", 410, 193, 160, 22, $CBS_DROPDOWNLIST)
     
-    GUICtrlCreateLabel("Shop Type:", 240, 195, 70, 20)
-    GUICtrlCreateCombo("", 310, 193, 100, 20, $CBS_DROPDOWNLIST)
-    Local $btnInventory = GUICtrlCreateButton("Inventory", 415, 193, 65, 23)
+    GUICtrlCreateLabel("Shop Type:", 310, 240, 95, 24)
+    GUICtrlCreateCombo("", 410, 238, 100, 22, $CBS_DROPDOWNLIST)
+    Local $btnInventory = GUICtrlCreateButton("Inventory", 515, 238, 65, 26)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 400, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 400, 400, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 25, 475, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 465, 475, 110, 35)
     
     GUISetState(@SW_SHOW, $hNPCGUI)
     

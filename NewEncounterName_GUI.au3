@@ -5,13 +5,13 @@
 #include <StaticConstants.au3>
 
 Func _OpenNewEncounterNameGUI($hParent)
-    Local $hNewEncGUI = GUICreate("Enter Text", 350, 150, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hNewEncGUI = GUICreate("Enter Text", 400, 180, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Name of Encounter:", 10, 20, 330, 20, $SS_CENTER)
-    Local $txtInput = GUICtrlCreateInput("", 50, 50, 250, 24)
+    GUICtrlCreateLabel("Name of Encounter:", 20, 25, 360, 24, $SS_CENTER)
+    Local $txtInput = GUICtrlCreateInput("", 50, 60, 300, 28, $ES_CENTER)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 100, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 250, 100, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 40, 120, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 250, 120, 110, 35)
     
     GUISetState(@SW_SHOW, $hNewEncGUI)
     

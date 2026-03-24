@@ -6,25 +6,25 @@
 #include <ListBoxConstants.au3>
 
 Func _OpenEncounterTableGUI($hParent)
-    Local $hETGUI = GUICreate("Encounter Table", 400, 350, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hETGUI = GUICreate("Encounter Table", 480, 420, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Table Name:", 20, 20, 80, 20)
-    GUICtrlCreateInput("", 100, 18, 250, 22)
+    GUICtrlCreateLabel("Table Name:", 25, 25, 100, 24)
+    GUICtrlCreateInput("", 130, 23, 300, 24)
     
-    GUICtrlCreateLabel("Rate:", 20, 50, 40, 20)
-    GUICtrlCreateInput("", 65, 48, 50, 22)
+    GUICtrlCreateLabel("Rate:", 25, 65, 50, 24)
+    GUICtrlCreateInput("", 80, 62, 70, 24)
     
-    GUICtrlCreateLabel("Chance:", 150, 50, 50, 20)
-    GUICtrlCreateInput("", 205, 48, 50, 22)
+    GUICtrlCreateLabel("Chance:", 170, 65, 70, 24)
+    GUICtrlCreateInput("", 245, 62, 70, 24)
     
-    GUICtrlCreateLabel("Encounter List:", 20, 85, 100, 20)
-    Local $lbEncounters = GUICtrlCreateList("", 20, 110, 280, 150, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Encounter List:", 25, 105, 120, 24)
+    Local $lbEncounters = GUICtrlCreateList("", 25, 135, 320, 200, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnNew = GUICtrlCreateButton("New", 310, 110, 70, 25)
-    Local $btnDelete = GUICtrlCreateButton("Delete", 310, 145, 70, 25)
+    Local $btnNew = GUICtrlCreateButton("New", 360, 135, 90, 35)
+    Local $btnDelete = GUICtrlCreateButton("Delete", 360, 185, 90, 35)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 300, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 300, 300, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 25, 365, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 345, 365, 110, 35)
     
     GUISetState(@SW_SHOW, $hETGUI)
     

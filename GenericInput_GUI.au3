@@ -4,11 +4,11 @@
 #include <EditConstants.au3>
 
 Func _OpenGenericInputGUI($hParent)
-    Local $hInputGUI = GUICreate("Input", 250, 60, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hInputGUI = GUICreate("Input", 400, 120, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 10, 15, 60, 24)
-    Local $txtInput = GUICtrlCreateInput("", 85, 15, 80, 24)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 180, 15, 60, 24)
+    Local $btnOK = GUICtrlCreateButton("OK", 20, 40, 90, 35)
+    Local $txtInput = GUICtrlCreateInput("", 130, 45, 140, 28, $ES_CENTER)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 290, 40, 90, 35)
     
     GUISetState(@SW_SHOW, $hInputGUI)
     

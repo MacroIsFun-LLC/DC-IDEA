@@ -3,16 +3,18 @@
 #include <WindowsConstants.au3>
 
 Func _OpenContainerGUI($hParent)
-    Local $hContGUI = GUICreate("Container", 200, 200, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hContGUI = GUICreate("Container", 350, 300, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    ; Container defined as an empty dialog in resource script, likely meant as a placeholder or generic window
-    GUICtrlCreateLabel("Container View Placeholder", 20, 80, 160, 20)
+    GUICtrlCreateLabel("Container View Placeholder", 50, 100, 250, 30, $SS_CENTER)
+    GUICtrlSetFont(-1, 12, 600)
+    
+    Local $btnOK = GUICtrlCreateButton("OK", 125, 230, 100, 35)
     
     GUISetState(@SW_SHOW, $hContGUI)
     
     While 1
         $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Then
+        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnOK Then
             GUIDelete($hContGUI)
             Return
         EndIf

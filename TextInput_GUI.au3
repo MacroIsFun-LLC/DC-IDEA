@@ -5,16 +5,17 @@
 #include <ListBoxConstants.au3>
 
 Func _OpenTextInputGUI($hParent)
-    ; Mapped from TextInputGui.txt which has "Race Dialog" caption in the resources
-    Local $hTextInputGUI = GUICreate("Text Input Dialog", 400, 450, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hTextInputGUI = GUICreate("Text Input Dialog", 480, 550, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Please enter text below:", 20, 20, 200, 20)
-    Local $lbTemplates = GUICtrlCreateList("", 15, 45, 180, 130, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Please enter text below or select a template:", 25, 20, 350, 24)
+    Local $lbTemplates = GUICtrlCreateList("", 25, 55, 250, 150, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnOK = GUICtrlCreateButton("OK", 270, 15, 80, 30)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 270, 55, 80, 30)
+    Local $btnOK = GUICtrlCreateButton("OK", 350, 20, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 350, 70, 110, 35)
     
-    Local $txtInput = GUICtrlCreateEdit("", 15, 200, 370, 220, BitOR($ES_MULTILINE, $WS_VSCROLL))
+    GUICtrlCreateLabel("Edit Area:", 25, 220, 100, 24)
+    Local $txtInput = GUICtrlCreateEdit("", 20, 250, 440, 270, BitOR($ES_MULTILINE, $WS_VSCROLL))
+    GUICtrlSetFont(-1, 10)
     
     GUISetState(@SW_SHOW, $hTextInputGUI)
     

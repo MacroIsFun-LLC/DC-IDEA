@@ -1,14 +1,16 @@
 #include-once
 #include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
+#include <StaticConstants.au3>
 
 Func _OpenObjectPropertiesGUI($hParent)
-    Local $hPropGUI = GUICreate("Object Properties", 350, 180, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hPropGUI = GUICreate("Object Properties", 400, 200, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Object Properties Placeholder", 20, 50, 310, 40)
+    GUICtrlCreateLabel("Object Properties Area", 25, 50, 350, 50, BitOR($SS_SUNKEN, $SS_CENTER, $SS_CENTERIMAGE))
+    GUICtrlSetFont(-1, 10, 600)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 130, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 250, 130, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 40, 140, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 250, 140, 110, 35)
     
     GUISetState(@SW_SHOW, $hPropGUI)
     

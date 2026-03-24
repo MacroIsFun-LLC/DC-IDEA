@@ -7,45 +7,45 @@
 #include <ComboConstants.au3>
 
 Func _OpenSpellEditorGUI($hParent)
-    Local $hSpellGUI = GUICreate("Spell Dialog", 600, 400, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hSpellGUI = GUICreate("Spell Dialog", 680, 480, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Spell List:", 20, 20, 60, 20)
-    Local $lbSpells = GUICtrlCreateList("", 20, 45, 180, 280, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Spell List:", 25, 25, 80, 24)
+    Local $lbSpells = GUICtrlCreateList("", 25, 55, 220, 340, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnNew = GUICtrlCreateButton("New", 20, 340, 85, 25)
-    Local $btnDel = GUICtrlCreateButton("Delete", 115, 340, 85, 25)
+    Local $btnNew = GUICtrlCreateButton("New", 25, 410, 105, 35)
+    Local $btnDel = GUICtrlCreateButton("Delete", 140, 410, 105, 35)
     
     ; Spell Properties Group
-    GUICtrlCreateGroup("Spell Properties", 220, 20, 360, 305)
+    GUICtrlCreateGroup("Spell Properties", 265, 25, 390, 370)
     
-    GUICtrlCreateLabel("Spell Name:", 235, 45, 80, 20)
-    GUICtrlCreateInput("", 320, 42, 240, 22)
+    GUICtrlCreateLabel("Spell Name:", 285, 65, 100, 24)
+    GUICtrlCreateInput("", 390, 62, 240, 24)
     
-    GUICtrlCreateLabel("Mana Usage:", 235, 75, 80, 20)
-    GUICtrlCreateInput("", 320, 72, 60, 22, $ES_NUMBER)
-    Local $btnEditCode = GUICtrlCreateButton("Edit Code", 480, 72, 80, 25)
+    GUICtrlCreateLabel("Mana Usage:", 285, 105, 110, 24)
+    GUICtrlCreateInput("", 400, 102, 75, 24, $ES_NUMBER)
+    Local $btnEditCode = GUICtrlCreateButton("Edit Code", 550, 102, 90, 32)
     
-    GUICtrlCreateLabel("Target:", 235, 110, 60, 20)
-    GUICtrlCreateCombo("", 300, 108, 150, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Target:", 285, 145, 85, 24)
+    GUICtrlCreateCombo("", 380, 143, 180, 22, $CBS_DROPDOWNLIST)
     
-    GUICtrlCreateLabel("Area:", 235, 140, 60, 20)
-    GUICtrlCreateInput("", 300, 138, 80, 22, $ES_NUMBER)
+    GUICtrlCreateLabel("Area:", 285, 185, 85, 24)
+    GUICtrlCreateInput("", 380, 182, 100, 24, $ES_NUMBER)
     
-    GUICtrlCreateLabel("Spell Levels:", 235, 180, 100, 20)
+    GUICtrlCreateLabel("Spell Levels:", 285, 230, 120, 24)
     Local $aLevels[8]
     For $i = 0 To 7
-        $aLevels[$i] = GUICtrlCreateRadio($i + 1, 235 + ($i * 40), 205, 35, 20)
+        $aLevels[$i] = GUICtrlCreateRadio($i + 1, 285 + ($i * 45), 260, 42, 24)
     Next
     
-    GUICtrlCreateLabel("Effects magery skill by:", 235, 240, 150, 20)
-    GUICtrlCreateInput("", 390, 238, 60, 22)
+    GUICtrlCreateLabel("Effects magery skill by:", 285, 300, 180, 24)
+    GUICtrlCreateInput("", 470, 298, 75, 24)
     
-    GUICtrlCreateLabel("Minimum Magery Required:", 235, 270, 160, 20)
-    GUICtrlCreateInput("", 400, 268, 60, 22)
+    GUICtrlCreateLabel("Minimum Magery Required:", 285, 340, 200, 24)
+    GUICtrlCreateInput("", 490, 338, 75, 24)
     
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    Local $btnDone = GUICtrlCreateButton("Done", 510, 340, 70, 25)
+    Local $btnDone = GUICtrlCreateButton("Done", 575, 415, 90, 35)
     
     GUISetState(@SW_SHOW, $hSpellGUI)
     

@@ -6,32 +6,32 @@
 #include <ComboConstants.au3>
 
 Func _OpenAnimEditorGUI($hParent)
-    Local $hAnimGUI = GUICreate("Anim Editor", 400, 280, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hAnimGUI = GUICreate("Anim Editor", 450, 350, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Animation:", 20, 20, 60, 20)
-    GUICtrlCreateInput("", 85, 18, 200, 22)
+    GUICtrlCreateLabel("Animation:", 20, 20, 80, 24)
+    GUICtrlCreateInput("", 105, 18, 250, 24)
     
     ; Animation sequence boxes (8 frames)
     Local $aFrames[8]
     For $i = 0 To 7
-        $aFrames[$i] = GUICtrlCreateLabel("", 20 + ($i * 45), 60, 40, 40, BitOR($SS_SUNKEN, $SS_CENTERIMAGE))
+        $aFrames[$i] = GUICtrlCreateLabel("", 20 + ($i * 52), 65, 48, 48, BitOR($SS_SUNKEN, $SS_CENTERIMAGE))
     Next
     
     ; Animation Controls Group
-    GUICtrlCreateGroup("Animation Controls", 15, 120, 370, 100)
-    GUICtrlCreateLabel("Speed:", 30, 145, 40, 20)
-    GUICtrlCreateInput("100", 75, 142, 60, 22, $ES_NUMBER)
+    GUICtrlCreateGroup("Animation Controls", 15, 140, 420, 130)
+    GUICtrlCreateLabel("Speed:", 30, 175, 60, 24)
+    GUICtrlCreateInput("100", 100, 172, 70, 24, $ES_NUMBER)
     
-    GUICtrlCreateLabel("Frames:", 30, 175, 45, 20)
-    GUICtrlCreateInput("8", 75, 172, 60, 22, $ES_NUMBER)
+    GUICtrlCreateLabel("Frames:", 30, 215, 60, 24)
+    GUICtrlCreateInput("8", 100, 212, 70, 24, $ES_NUMBER)
     
-    GUICtrlCreateCheckbox("Random Speed", 160, 145, 120, 20)
+    GUICtrlCreateCheckbox("Random Speed", 190, 175, 150, 24)
     
-    GUICtrlCreateLabel("Type:", 160, 175, 40, 20)
-    GUICtrlCreateCombo("", 205, 172, 150, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Type:", 190, 215, 50, 24)
+    GUICtrlCreateCombo("", 250, 213, 150, 22, $CBS_DROPDOWNLIST)
     GUICtrlCreateGroup("", -99, -99, 1, 1) ; close group
     
-    Local $btnDone = GUICtrlCreateButton("Done", 315, 240, 70, 25)
+    Local $btnDone = GUICtrlCreateButton("Done", 360, 305, 80, 25)
     
     GUISetState(@SW_SHOW, $hAnimGUI)
     

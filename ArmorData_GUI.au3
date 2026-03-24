@@ -6,40 +6,40 @@
 #include <ComboConstants.au3>
 
 Func _OpenArmorDataGUI($hParent)
-    Local $hArmorGUI = GUICreate("Armor Data", 450, 350, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hArmorGUI = GUICreate("Armor Data", 520, 420, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Type:", 20, 20, 40, 20)
-    GUICtrlCreateCombo("", 70, 18, 150, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Type:", 20, 20, 50, 24)
+    GUICtrlCreateCombo("", 85, 18, 160, 22, $CBS_DROPDOWNLIST)
     
-    GUICtrlCreateLabel("Alignment:", 240, 20, 60, 20)
-    GUICtrlCreateCombo("", 310, 18, 120, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Alignment:", 270, 20, 80, 24)
+    GUICtrlCreateCombo("", 360, 18, 140, 22, $CBS_DROPDOWNLIST)
     
-    GUICtrlCreateLabel("Protection Value:", 20, 50, 100, 20)
-    GUICtrlCreateInput("", 130, 48, 90, 22)
+    GUICtrlCreateLabel("Protection Value:", 20, 65, 120, 24)
+    GUICtrlCreateInput("", 145, 62, 100, 24)
     
     ; Flags
-    GUICtrlCreateGroup("Flags", 20, 80, 180, 80)
-    GUICtrlCreateCheckbox("Can be repaired", 35, 100, 140, 20)
-    GUICtrlCreateCheckbox("Magic", 35, 130, 100, 20)
+    GUICtrlCreateGroup("Flags", 20, 110, 210, 110)
+    GUICtrlCreateCheckbox("Can be repaired", 35, 140, 170, 24)
+    GUICtrlCreateCheckbox("Magic", 35, 175, 100, 24)
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
     ; Attribute Requirements
-    GUICtrlCreateGroup("Attribute Requirements", 215, 80, 215, 180)
+    GUICtrlCreateGroup("Attribute Requirements", 250, 110, 250, 230)
     Local $aAttribs = ["Min Level", "Min Str", "Min Int", "Min Dex", "Min Con"]
     For $i = 0 To UBound($aAttribs) - 1
-        GUICtrlCreateLabel($aAttribs[$i] & ":", 230, 105 + ($i * 30), 80, 20)
-        GUICtrlCreateInput("", 320, 102 + ($i * 30), 80, 22, $ES_NUMBER)
+        GUICtrlCreateLabel($aAttribs[$i] & ":", 265, 145 + ($i * 35), 110, 24)
+        GUICtrlCreateInput("", 385, 142 + ($i * 35), 90, 24, $ES_NUMBER)
     Next
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    GUICtrlCreateLabel("Min Health:", 20, 180, 80, 20)
-    GUICtrlCreateInput("", 110, 178, 90, 22)
+    GUICtrlCreateLabel("Min Health:", 20, 240, 110, 24)
+    GUICtrlCreateInput("", 135, 238, 95, 24)
     
-    GUICtrlCreateLabel("Max Health:", 20, 210, 80, 20)
-    GUICtrlCreateInput("", 110, 208, 90, 22)
+    GUICtrlCreateLabel("Max Health:", 20, 280, 110, 24)
+    GUICtrlCreateInput("", 135, 278, 95, 24)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 300, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 350, 300, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 20, 365, 100, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 400, 365, 100, 35)
     
     GUISetState(@SW_SHOW, $hArmorGUI)
     

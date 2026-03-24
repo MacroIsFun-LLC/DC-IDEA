@@ -4,12 +4,12 @@
 #include <EditConstants.au3>
 
 Func _OpenCompilerOutputGUI($hParent)
-    Local $hCompGUI = GUICreate("Compiler Output", 600, 650, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hCompGUI = GUICreate("Compiler Output", 700, 750, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    Local $txtOutput = GUICtrlCreateEdit("", 10, 10, 580, 580, BitOR($ES_MULTILINE, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_READONLY, $WS_VSCROLL))
-    GUICtrlSetFont(-1, 9, 400, 0, "Courier New")
+    Local $txtOutput = GUICtrlCreateEdit("", 15, 15, 670, 660, BitOR($ES_MULTILINE, $ES_AUTOVSCROLL, $ES_AUTOHSCROLL, $ES_READONLY, $WS_VSCROLL))
+    GUICtrlSetFont(-1, 10, 400, 0, "Courier New")
     
-    Local $btnDone = GUICtrlCreateButton("Done", 260, 605, 80, 30)
+    Local $btnDone = GUICtrlCreateButton("Done", 310, 695, 80, 35)
     
     GUISetState(@SW_SHOW, $hCompGUI)
     

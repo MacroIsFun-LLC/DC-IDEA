@@ -7,38 +7,38 @@
 #include <ComboConstants.au3>
 
 Func _OpenTradeDataGUI($hParent)
-    Local $hTradeGUI = GUICreate("Trade Object Editor", 700, 500, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hTradeGUI = GUICreate("Trade Object Editor", 800, 550, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Types:", 20, 20, 50, 20)
-    GUICtrlCreateCombo("", 20, 45, 180, 20, $CBS_DROPDOWNLIST)
-    Local $lbTypes = GUICtrlCreateList("", 20, 80, 180, 350, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Types:", 25, 25, 60, 24)
+    GUICtrlCreateCombo("", 25, 50, 200, 22, $CBS_DROPDOWNLIST)
+    Local $lbTypes = GUICtrlCreateList("", 25, 85, 200, 380, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnRight = GUICtrlCreateButton(">>", 215, 100, 30, 30)
-    Local $btnLeft = GUICtrlCreateButton("<<", 215, 140, 30, 30)
+    Local $btnRight = GUICtrlCreateButton(">>", 240, 120, 40, 40)
+    Local $btnLeft = GUICtrlCreateButton("<<", 240, 170, 40, 40)
     
-    GUICtrlCreateLabel("Trade Objects:", 260, 20, 100, 20)
-    GUICtrlCreateCombo("", 260, 45, 180, 20, $CBS_DROPDOWNLIST)
-    Local $lbObjects = GUICtrlCreateList("", 260, 80, 180, 350, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Trade Objects:", 300, 25, 120, 24)
+    GUICtrlCreateCombo("", 300, 50, 200, 22, $CBS_DROPDOWNLIST)
+    Local $lbObjects = GUICtrlCreateList("", 300, 85, 200, 380, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
     ; Trade Object Information Group
-    GUICtrlCreateGroup("Trade Object Information", 460, 120, 220, 250)
+    GUICtrlCreateGroup("Trade Object Information", 525, 120, 250, 280)
     
-    GUICtrlCreateLabel("Source Material:", 475, 145, 100, 20)
-    GUICtrlCreateCombo("", 475, 165, 190, 20, $CBS_DROPDOWNLIST)
+    GUICtrlCreateLabel("Source Material:", 540, 150, 120, 24)
+    GUICtrlCreateCombo("", 540, 175, 220, 22, $CBS_DROPDOWNLIST)
     
-    GUICtrlCreateLabel("Quantity:", 475, 205, 60, 20)
-    GUICtrlCreateInput("1", 540, 202, 60, 22, $ES_NUMBER)
+    GUICtrlCreateLabel("Quantity:", 540, 220, 70, 24)
+    GUICtrlCreateInput("1", 620, 218, 70, 24, $ES_NUMBER)
     
-    GUICtrlCreateLabel("Min Skill Req:", 475, 235, 100, 20)
-    GUICtrlCreateInput("0", 580, 232, 60, 22, $ES_NUMBER)
+    GUICtrlCreateLabel("Min Skill Req:", 540, 260, 110, 24)
+    GUICtrlCreateInput("0", 660, 258, 70, 24, $ES_NUMBER)
     
-    GUICtrlCreateLabel("Difficulty:", 475, 265, 60, 20)
-    GUICtrlCreateInput("0", 540, 262, 60, 22, $ES_NUMBER)
+    GUICtrlCreateLabel("Difficulty:", 540, 300, 70, 24)
+    GUICtrlCreateInput("0", 620, 298, 70, 24, $ES_NUMBER)
     
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 460, 440, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 600, 440, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 525, 480, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 665, 480, 110, 35)
     
     GUISetState(@SW_SHOW, $hTradeGUI)
     

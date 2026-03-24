@@ -1,6 +1,6 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
-#AutoIt3Wrapper_Res_Fileversion=0.0.0.6
+#AutoIt3Wrapper_Res_Fileversion=0.0.0.8
 #AutoIt3Wrapper_Outfile=Build\Dransik ClassiK Editor Ver.%fileversion%.exe
 #AutoIt3Wrapper_Res_ProductName=Dransik ClassiK Editor Ver.%fileversion%
 #AutoIt3Wrapper_Icon=Assets\Dransik Editor.ico
@@ -19,11 +19,23 @@
 ; Initialize for Windows 11 compatibility / High DPI
 DllCall("User32.dll", "bool", "SetProcessDPIAware")
 
-SplashTextOn("Dransik Editor", "Initializing Core Modules...", 300, 50)
-Sleep(500)
-SplashOff()
+ProgressOn("Dransik ClassiK Editor", "Starting Modernized Suite...", "Initializing Core Modules", -1, -1, 16) ; 16 = Topmost
 
-; Load Sub-GUIs
+For $i = 1 To 100 Step 5
+    $sMsg = "Loading Modules... (" & $i & "%)"
+    If $i > 30 Then $sMsg = "Parsing 38 UI Resources... (" & $i & "%)"
+    If $i > 60 Then $sMsg = "Standardizing Spacing Audit... (" & $i & "%)"
+    If $i > 90 Then $sMsg = "Finalizing Main Hub... (" & $i & "%)"
+    ProgressSet($i, $sMsg)
+    ConsoleWrite("> " & $sMsg & @CRLF)
+    Sleep(50)
+Next
+ProgressSet(100, "Finalizing Main Hub... (100%)", "Done!")
+ConsoleWrite("+ Startup Sequence Complete." & @CRLF)
+Sleep(500)
+ProgressOff()
+
+; Load Sub-GUIs (Pre-processed by AutoIt)
 #include "About_GUI.au3"
 #include "AnimEditor_GUI.au3"
 #include "ArmorData_GUI.au3"
@@ -62,6 +74,8 @@ SplashOff()
 #include "Race_GUI.au3"
 #include "TextInput_GUI.au3"
 #include "NewProject_GUI.au3"
+
+SplashOff()
 
 ; ====================================================================================
 ;                               CREATE MAIN WINDOW

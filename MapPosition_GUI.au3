@@ -5,15 +5,15 @@
 #include <StaticConstants.au3>
 
 Func _OpenMapPositionGUI($hParent)
-    Local $hPosGUI = GUICreate("Position", 250, 150, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hPosGUI = GUICreate("Position", 300, 180, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("XPOS:", 40, 30, 60, 20)
-    GUICtrlCreateInput("", 105, 28, 80, 22, $ES_READONLY)
+    GUICtrlCreateLabel("XPOS:", 50, 40, 60, 24)
+    GUICtrlCreateInput("", 120, 37, 100, 24, $ES_READONLY)
     
-    GUICtrlCreateLabel("YPOS:", 40, 65, 60, 20)
-    GUICtrlCreateInput("", 105, 63, 80, 22, $ES_READONLY)
+    GUICtrlCreateLabel("YPOS:", 50, 80, 60, 24)
+    GUICtrlCreateInput("", 120, 77, 100, 24, $ES_READONLY)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 85, 105, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 100, 130, 100, 32)
     
     GUISetState(@SW_SHOW, $hPosGUI)
     

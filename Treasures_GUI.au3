@@ -6,35 +6,35 @@
 #include <ListBoxConstants.au3>
 
 Func _OpenTreasuresGUI($hParent)
-    Local $hTreasureGUI = GUICreate("Treasure Type Dialog", 600, 550, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hTreasureGUI = GUICreate("Treasure Type Dialog", 720, 600, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Treasure Types:", 20, 20, 100, 20)
-    Local $lbTypes = GUICtrlCreateList("", 20, 45, 150, 420, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
-    Local $btnAddType = GUICtrlCreateButton("Add Type", 20, 475, 70, 25)
-    Local $btnDelType = GUICtrlCreateButton("Del Type", 100, 475, 70, 25)
+    GUICtrlCreateLabel("Treasure Types:", 25, 25, 120, 24)
+    Local $lbTypes = GUICtrlCreateList("", 25, 55, 180, 440, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    Local $btnAddType = GUICtrlCreateButton("Add Type", 25, 510, 85, 30)
+    Local $btnDelType = GUICtrlCreateButton("Del Type", 120, 510, 85, 30)
     
     ; Properties Group
-    GUICtrlCreateGroup("Treasure Type Properties", 190, 20, 390, 480)
+    GUICtrlCreateGroup("Treasure Type Properties", 220, 25, 475, 515)
     
-    Local $lbTreasures = GUICtrlCreateList("", 205, 45, 200, 350, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
-    Local $btnAddTreasure = GUICtrlCreateButton("Add Treasure", 230, 405, 120, 25)
-    Local $btnDelTreasure = GUICtrlCreateButton("Del Treasure", 230, 440, 120, 25)
+    Local $lbTreasures = GUICtrlCreateList("", 240, 55, 230, 380, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    Local $btnAddTreasure = GUICtrlCreateButton("Add Treasure", 270, 450, 150, 30)
+    Local $btnDelTreasure = GUICtrlCreateButton("Del Treasure", 270, 490, 150, 30)
     
-    GUICtrlCreateLabel("There is a", 420, 240, 60, 20)
-    GUICtrlCreateInput("", 485, 238, 40, 22)
-    GUICtrlCreateLabel("% chance that", 530, 240, 80, 20)
+    GUICtrlCreateLabel("There is a", 490, 240, 70, 24)
+    GUICtrlCreateInput("", 565, 238, 50, 24)
+    GUICtrlCreateLabel("% chance that", 620, 240, 90, 24)
     
-    GUICtrlCreateLabel("Quantity:", 420, 280, 60, 20)
-    GUICtrlCreateInput("", 485, 278, 40, 22)
-    GUICtrlCreateLabel("to", 530, 280, 20, 20)
-    GUICtrlCreateInput("", 550, 278, 40, 22)
+    GUICtrlCreateLabel("Quantity:", 490, 285, 70, 24)
+    GUICtrlCreateInput("", 565, 282, 50, 24)
+    GUICtrlCreateLabel("to", 620, 285, 25, 24)
+    GUICtrlCreateInput("", 645, 282, 50, 24)
     
-    GUICtrlCreateLabel("will appear in this treasure type.", 420, 320, 150, 40)
+    GUICtrlCreateLabel("will appear in this treasure type.", 490, 330, 180, 45)
     
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 510, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 500, 510, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 25, 550, 100, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 595, 550, 100, 35)
     
     GUISetState(@SW_SHOW, $hTreasureGUI)
     

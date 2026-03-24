@@ -4,11 +4,12 @@
 #include <EditConstants.au3>
 
 Func _OpenSignDataGUI($hParent)
-    Local $hSignGUI = GUICreate("Sign Data", 400, 300, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hSignGUI = GUICreate("Sign Data", 500, 400, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    Local $txtSign = GUICtrlCreateEdit("", 15, 15, 370, 230, BitOR($ES_MULTILINE, $ES_WANTRETURN, $WS_VSCROLL))
+    Local $txtSign = GUICtrlCreateEdit("", 20, 20, 460, 300, BitOR($ES_MULTILINE, $ES_WANTRETURN, $WS_VSCROLL))
+    GUICtrlSetFont(-1, 10)
     
-    Local $btnDone = GUICtrlCreateButton("Done", 160, 260, 80, 25)
+    Local $btnDone = GUICtrlCreateButton("Done", 200, 345, 100, 35)
     
     GUISetState(@SW_SHOW, $hSignGUI)
     

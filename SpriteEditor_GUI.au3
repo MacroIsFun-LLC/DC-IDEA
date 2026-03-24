@@ -6,25 +6,26 @@
 #include <StaticConstants.au3>
 
 Func _OpenSpriteEditorGUI($hParent)
-    Local $hSpriteGUI = GUICreate("Sprite Editor Dialog", 550, 450, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hSpriteGUI = GUICreate("Sprite Editor Dialog", 650, 520, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateGroup("Sprite Data", 15, 15, 520, 150)
-    GUICtrlCreateLabel("Name:", 30, 40, 50, 20)
-    GUICtrlCreateInput("", 85, 38, 180, 24)
+    GUICtrlCreateGroup("Sprite Data", 15, 15, 620, 180)
+    GUICtrlCreateLabel("Name:", 35, 45, 60, 24)
+    GUICtrlCreateInput("", 100, 42, 250, 26)
     
-    GUICtrlCreateLabel("Sprite Animation Sequence:", 30, 75, 180, 20)
+    GUICtrlCreateLabel("Sprite Animation Sequence:", 35, 80, 200, 24)
     Local $aFrames[8]
     For $i = 0 To 7
-        $aFrames[$i] = GUICtrlCreateLabel("", 30 + ($i * 60), 100, 50, 50, BitOR($SS_SUNKEN, $SS_CENTERIMAGE, $SS_NOTIFY))
+        $aFrames[$i] = GUICtrlCreateLabel("", 35 + ($i * 72), 110, 60, 60, BitOR($SS_SUNKEN, $SS_CENTERIMAGE, $SS_NOTIFY))
     Next
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    Local $lbSprites = GUICtrlCreateList("", 15, 175, 250, 230, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    GUICtrlCreateLabel("Sprite List:", 15, 205, 120, 24)
+    Local $lbSprites = GUICtrlCreateList("", 15, 235, 300, 240, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnNew = GUICtrlCreateButton("New", 320, 250, 80, 30)
-    Local $btnDelete = GUICtrlCreateButton("Delete", 320, 300, 80, 30)
+    Local $btnNew = GUICtrlCreateButton("New", 350, 250, 110, 35)
+    Local $btnDelete = GUICtrlCreateButton("Delete", 350, 305, 110, 35)
     
-    Local $btnClose = GUICtrlCreateButton("Close", 450, 400, 80, 25)
+    Local $btnClose = GUICtrlCreateButton("Close", 520, 465, 110, 35)
     
     GUISetState(@SW_SHOW, $hSpriteGUI)
     

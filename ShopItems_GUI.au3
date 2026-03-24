@@ -4,12 +4,12 @@
 #include <ListBoxConstants.au3>
 
 Func _OpenShopItemsGUI($hParent)
-    Local $hShopItemsGUI = GUICreate("Shop Items", 250, 600, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hShopItemsGUI = GUICreate("Shop Items", 350, 650, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    Local $lbItems = GUICtrlCreateList("", 15, 15, 220, 520, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    Local $lbItems = GUICtrlCreateList("", 25, 25, 300, 500, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
     
-    Local $btnOK = GUICtrlCreateButton("OK", 15, 555, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 155, 555, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 25, 590, 120, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 205, 590, 120, 35)
     
     GUISetState(@SW_SHOW, $hShopItemsGUI)
     

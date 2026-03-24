@@ -6,44 +6,44 @@
 #include <ListBoxConstants.au3>
 
 Func _OpenEncounterTablesGUI($hParent)
-    Local $hEncGUI = GUICreate("Encounter Tables", 650, 480, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    Local $hEncGUI = GUICreate("Encounter Tables", 780, 580, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     
-    GUICtrlCreateLabel("Encounter Table Name:", 20, 20, 150, 20)
-    GUICtrlCreateInput("", 170, 18, 200, 22)
+    GUICtrlCreateLabel("Encounter Table Name:", 25, 25, 180, 24)
+    GUICtrlCreateInput("", 210, 23, 250, 24)
     
-    GUICtrlCreateLabel("Rate:", 380, 20, 40, 20)
-    GUICtrlCreateInput("", 425, 18, 50, 22)
+    GUICtrlCreateLabel("Rate:", 475, 25, 50, 24)
+    GUICtrlCreateInput("", 530, 23, 65, 24)
     
-    GUICtrlCreateLabel("Chance:", 490, 20, 50, 20)
-    GUICtrlCreateInput("", 545, 18, 50, 22)
+    GUICtrlCreateLabel("Chance:", 610, 25, 65, 24)
+    GUICtrlCreateInput("", 680, 23, 65, 24)
     
     ; Table List
-    Local $lbTables = GUICtrlCreateList("", 20, 60, 200, 320, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
-    Local $btnNewTable = GUICtrlCreateButton("New", 20, 390, 95, 25)
-    Local $btnDelTable = GUICtrlCreateButton("Delete", 125, 390, 95, 25)
+    Local $lbTables = GUICtrlCreateList("", 25, 75, 240, 380, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    Local $btnNewTable = GUICtrlCreateButton("New", 25, 465, 115, 35)
+    Local $btnDelTable = GUICtrlCreateButton("Delete", 150, 465, 115, 35)
     
     ; Specific Encounter Data
-    GUICtrlCreateGroup("Specific Encounter Data", 240, 60, 390, 320)
+    GUICtrlCreateGroup("Specific Encounter Data", 285, 75, 470, 380)
     
-    GUICtrlCreateLabel("Encounter Name:", 255, 85, 100, 20)
-    GUICtrlCreateInput("", 360, 82, 180, 22)
+    GUICtrlCreateLabel("Encounter Name:", 305, 110, 120, 24)
+    GUICtrlCreateInput("", 430, 107, 250, 24)
     
-    GUICtrlCreateLabel("Max Num:", 255, 115, 60, 20)
-    GUICtrlCreateInput("", 320, 112, 60, 22)
+    GUICtrlCreateLabel("Max Num:", 305, 155, 85, 24)
+    GUICtrlCreateInput("", 400, 152, 80, 24)
     
     ; Spawn Chance Text Items (Simplified representation)
-    GUICtrlCreateLabel("There is a % chance that the following npcs will spawn", 255, 150, 300, 40)
+    GUICtrlCreateLabel("There is a % chance that the following npcs will spawn", 305, 195, 430, 50)
     
     ; List of possible spawns placeholder
     For $i = 0 To 3
-        GUICtrlCreateButton("Select NPC", 255, 200 + ($i * 35), 80, 22)
-        GUICtrlCreateInput("", 340, 200 + ($i * 35), 150, 22, $ES_READONLY)
+        GUICtrlCreateButton("Select NPC", 305, 260 + ($i * 48), 110, 32)
+        GUICtrlCreateInput("", 425, 264 + ($i * 48), 240, 24, $ES_READONLY)
     Next
     
     GUICtrlCreateGroup("", -99, -99, 1, 1)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 470, 430, 80, 25)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 560, 430, 80, 25)
+    Local $btnOK = GUICtrlCreateButton("OK", 535, 520, 110, 35)
+    Local $btnCancel = GUICtrlCreateButton("Cancel", 655, 520, 110, 35)
     
     GUISetState(@SW_SHOW, $hEncGUI)
     
