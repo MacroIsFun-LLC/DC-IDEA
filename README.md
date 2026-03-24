@@ -30,7 +30,3 @@ The application is structured around a central hub that dispatches editor functi
 1. Ensure you have [AutoIt3](https://www.autoitscript.com/site/autoit/) installed.
 2. Run **`Dransik ClassiK Editor.au3`** to launch the main application.
 3. Access specific editors via the **Edit** and **Game Data** menus.
-
-## Status
-
-As of the current version, the **UI Framework is 100% complete**, covering all 38 original dialog definitions. Each module is ready to receive expanded functional logic.
