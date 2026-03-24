@@ -4,39 +4,72 @@
 #include <StaticConstants.au3>
 
 Func _OpenAboutGUI($hParent)
-    Local $hAboutGUI = GUICreate("About Dransik Editor", 420, 480, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Dimensions provided by user
+    Local $iPaneW = 654
+    Local $iPaneH = 408
+    
+    ; Main GUI Size
+    Local $iMainW = 750
+    Local $iMainH = 650
+    
+    Local $hAboutGUI = GUICreate("About Dransik Editor", $iMainW, $iMainH, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
     GUISetIcon(@ScriptDir & "\Assets\Dransik Editor.ico")
     
-    ; Image Area - Viewport trick (Quadrant 1 of 1 2 / 3 4)
-    ; Assuming standard 200x200 or similar for the display area
-    Local $nViewW = 380
-    Local $nViewH = 280
+    ; Randomized selection (1 to 4)
+    Local $iPane = Random(1, 4, 1)
+    Local $iOffsetX = 0
+    Local $iOffsetY = 0
     
-    ; Create a child window for the viewport to "crop" the image
-    Local $hViewport = GUICreate("", $nViewW, $nViewH, 20, 20, $WS_CHILD, -1, $hAboutGUI)
-    ; For Quadrant 1 (Top Left), offset is 0,0
-    GUICtrlCreatePic(@ScriptDir & "\Assets\AboutGUI.png", 0, 0) 
+    Switch $iPane
+        Case 1 ; Top Left
+            $iOffsetX = 0
+            $iOffsetY = 0
+        Case 2 ; Top Right
+            $iOffsetX = -$iPaneW
+            $iOffsetY = 0
+        Case 3 ; Bottom Left
+            $iOffsetX = 0
+            $iOffsetY = -$iPaneH
+        Case 4 ; Bottom Right
+            $iOffsetX = -$iPaneW
+            $iOffsetY = -$iPaneH
+    EndSwitch
+    
+    ; Create Viewport Window (Centered)
+    Local $iViewX = Int(($iMainW - $iPaneW) / 2)
+    Local $iViewY = 30
+    Local $hViewport = GUICreate("", $iPaneW, $iPaneH, $iViewX, $iViewY, $WS_CHILD, -1, $hAboutGUI)
+    
+    ; Use full path for the image
+    Local $sImgPath = @ScriptDir & "\Assets\AboutGUI.png"
+    If FileExists($sImgPath) Then
+        ; Create the picture control in the viewport context
+        ; We use the full image size (654*2 x 408*2 = 1308 x 816)
+        GUICtrlCreatePic($sImgPath, $iOffsetX, $iOffsetY, 1308, 816)
+    Else
+        GUICtrlCreateLabel("IMAGE NOT FOUND: " & $sImgPath, 0, 0, $iPaneW, $iPaneH, BitOR($SS_CENTER, $SS_CENTERIMAGE))
+        GUICtrlSetColor(-1, 0xFFFFFF)
+        GUISetBkColor(0x880000, $hViewport)
+    EndIf
+    
     GUISetState(@SW_SHOW, $hViewport)
-    
-    ; Switch back to main GUI context
     GUISwitch($hAboutGUI)
     
-    ; Disclaimer text
-    GUICtrlCreateLabel("Copyright (C) 1999 Asylumsoft", 20, 310, 380, 24)
-    GUICtrlSetFont(-1, 9, 600)
+    ; Disclaimer Text
+    GUICtrlCreateLabel("This is a Fan Product, It does not contian Any of Dransik Real code.", 20, $iPaneH + 60, $iMainW - 40, 60, $SS_CENTER)
+    GUICtrlSetFont(-1, 12, 800, 0, "Arial")
+    GUICtrlSetColor(-1, 0xE74C3C) ; Professional Alizarin Red
     
-    GUICtrlCreateLabel("This is a Fan Product, It does not contian Any of Dransik Real code.", 20, 345, 380, 50, $SS_CENTER)
-    GUICtrlSetFont(-1, 10, 800)
-    GUICtrlSetColor(-1, 0x880000) ; Dark red for emphasis
+    GUICtrlCreateLabel("Copyright (C) 1999 Asylumsoft", 20, $iPaneH + 130, $iMainW - 40, 24, $SS_CENTER)
+    GUICtrlSetFont(-1, 10, 400)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 160, 420, 100, 35)
+    Local $btnOK = GUICtrlCreateButton("OK", ($iMainW - 120) / 2, $iMainH - 60, 120, 35)
     
     GUISetState(@SW_SHOW, $hAboutGUI)
     
     While 1
         $nMsg = GUIGetMsg()
         If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnOK Then
-            ; Clean up child GUI before main
             GUIDelete($hViewport)
             GUIDelete($hAboutGUI)
             Return

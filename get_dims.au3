@@ -1,0 +1,10 @@
+#include <GDIPlus.au3>
+_GDIPlus_Startup()
+$hImage = _GDIPlus_ImageLoadFromFile("C:\Users\gooro\Documents\GitHub\DCIDEA\Assets\AboutGUI.png")
+$iWidth = _GDIPlus_ImageGetWidth($hImage)
+$iHeight = _GDIPlus_ImageGetHeight($hImage)
+_GDIPlus_ImageDispose($hImage)
+_GDIPlus_Shutdown()
+$hFile = FileOpen("C:\Users\gooro\Documents\GitHub\DCIDEA\dims.txt", 2)
+FileWrite($hFile, $iWidth & "x" & $iHeight)
+FileClose($hFile)
