@@ -28,5 +28,5 @@ Func _OpenShapeGUI($hParent)
             GUIDelete($hShapeGUI)
             Return
         EndIf
-    WEnD
+    WEnd
 EndFunc

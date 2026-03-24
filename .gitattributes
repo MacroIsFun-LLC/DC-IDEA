@@ -1,2 +1,7 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto detect text files and perform CRLF normalization for Windows/AutoIt consistency
+* text=auto eol=crlf
+
+*.au3 text eol=crlf
+*.txt text eol=crlf
+*.md text eol=crlf
+LICENSE text eol=crlf

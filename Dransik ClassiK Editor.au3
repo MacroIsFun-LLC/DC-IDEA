@@ -1,8 +1,8 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=y
-#AutoIt3Wrapper_Res_Fileversion=0.0.0.4
-#AutoIt3Wrapper_Outfile=Dransik ClassiK Editor v.%fileversion%.exe
-#AutoIt3Wrapper_Res_ProductName=Dransik ClassiK Editor v.%fileversion%
+#AutoIt3Wrapper_Res_Fileversion=0.0.0.6
+#AutoIt3Wrapper_Outfile=Build\Dransik ClassiK Editor Ver.%fileversion%.exe
+#AutoIt3Wrapper_Res_ProductName=Dransik ClassiK Editor Ver.%fileversion%
 #AutoIt3Wrapper_Icon=Assets\Dransik Editor.ico
 #AutoIt3Wrapper_Res_CompanyName=MacroIsFunLLc
 #AutoIt3Wrapper_Res_Language=1033
@@ -16,6 +16,13 @@
 #include <GuiStatusBar.au3>
 #include <WindowsConstants.au3>
 
+; Initialize for Windows 11 compatibility / High DPI
+DllCall("User32.dll", "bool", "SetProcessDPIAware")
+
+SplashTextOn("Dransik Editor", "Initializing Core Modules...", 300, 50)
+Sleep(500)
+SplashOff()
+
 ; Load Sub-GUIs
 #include "About_GUI.au3"
 #include "AnimEditor_GUI.au3"
@@ -27,13 +34,45 @@
 #include "SpellDialog_GUI.au3"
 #include "Treasures_GUI.au3"
 #include "TradeData_GUI.au3"
+#include "Chunktype_GUI.au3"
+#include "CompilerOutput_GUI.au3"
+#include "Container_GUI.au3"
+#include "ObjectInstance_GUI.au3"
+#include "Factions_GUI.au3"
+#include "GenericInput_GUI.au3"
+#include "GenericDialog_GUI.au3"
+#include "EncounterTable_GUI.au3"
+#include "MapPosition_GUI.au3"
+#include "NPCEncounterList_GUI.au3"
+#include "NPCType_GUI.au3"
+#include "EncounterName_GUI.au3"
+#include "NewEncounterName_GUI.au3"
+#include "NewMap_GUI.au3"
+#include "ShopType_GUI.au3"
+#include "NPCDialog_GUI.au3"
+#include "ObjectData_GUI.au3"
+#include "ObjectEditor_GUI.au3"
+#include "ObjectProperties_GUI.au3"
+#include "SelectMap_GUI.au3"
+#include "Shape_GUI.au3"
+#include "ShopInventory_GUI.au3"
+#include "ShopItems_GUI.au3"
+#include "SignData_GUI.au3"
+#include "SpriteEditor_GUI.au3"
+#include "Race_GUI.au3"
+#include "TextInput_GUI.au3"
+#include "NewProject_GUI.au3"
 
 ; ====================================================================================
 ;                               CREATE MAIN WINDOW
 ; ====================================================================================
-Local $sVersion = FileGetVersion(@ScriptFullPath)
-If @compiled = 0 Then $sVersion = "0.0.0.4 - InDev"
-$hMainGUI = GUICreate("Dransik ClassiK Editor v." & $sVersion, 1200, 700)
+Local $sTitle = "Dransik ClassiK Editor"
+If @Compiled Then
+    $sTitle &= " v." & FileGetVersion(@ScriptFullPath)
+Else
+    $sTitle &= " -InDev-"
+EndIf
+$hMainGUI = GUICreate($sTitle, 1200, 700)
 GUISetIcon(@ScriptDir & "\Assets\Dransik Editor.ico")
 
 ; ====================================================================================
@@ -60,10 +99,12 @@ $miNpcEditor = GUICtrlCreateMenuItem("Npc Editor", $mEdit)
 $miMapEditor = GUICtrlCreateMenuItem("&Map Editor", $mEdit)
 $miAnimEditor = GUICtrlCreateMenuItem("&Anim Editor", $mEdit)
 $miTypeEditor = GUICtrlCreateMenuItem("&Type Editor", $mEdit)
+$miArmorData = GUICtrlCreateMenuItem("&Armor Data", $mEdit)
 $miShopEditor = GUICtrlCreateMenuItem("&Shop Editor", $mEdit)
 $miEncounters = GUICtrlCreateMenuItem("Encounters", $mEdit)
 $miTreasures = GUICtrlCreateMenuItem("Treasures", $mEdit)
 $miTradeData = GUICtrlCreateMenuItem("Trade Data", $mEdit)
+$miSpellDialog = GUICtrlCreateMenuItem("&Spell Dialog", $mEdit)
 
 ; Game Data Menu
 $mGameData = GUICtrlCreateMenu("&Game Data")
@@ -139,11 +180,36 @@ While 1
         Case $miTradeData
             _OpenTradeDataGUI($hMainGUI)
             
-        Case $miSpellDialog ; Note: this wasn't in the menu object but part of another gui, adding it to Edit if needed
+        Case $miSpellDialog
             _OpenSpellEditorGUI($hMainGUI)
             
+        Case $miTypeEditor
+            _OpenTradeDataGUI($hMainGUI) ; Reusing or mapping to relevant editor
+            
+        Case $miMapPos
+            _OpenMapPositionGUI($hMainGUI)
+            
+        Case $miNewFile, $miNewUsecode
+            _OpenNewProjectGUI($hMainGUI)
+            
         Case $miOpenFile, $miOpenUsecode
-            _GUICtrlStatusBar_SetText($hStatus, "Opening file...")
+            _OpenSelectMapGUI($hMainGUI)
+            
+        Case $miCompileFile
+            _OpenCompilerOutputGUI($hMainGUI)
+            
+        Case $miToolbar
+            ; Toggle toolbar visibility logic here
+            GUICtrlSetState($miToolbar, $GUI_UNCHECKED) ; Placeholder toggle
+            
+        Case $miStatusbar
+            If GUICtrlRead($miStatusbar) = $GUI_CHECKED Then
+                GUICtrlSetState($miStatusbar, $GUI_UNCHECKED)
+                GUISetState(@SW_HIDE, $hStatus)
+            Else
+                GUICtrlSetState($miStatusbar, $GUI_CHECKED)
+                GUISetState(@SW_SHOW, $hStatus)
+            EndIf
             
     EndSwitch
-WEnD
+WEnd

@@ -22,5 +22,5 @@ Func _OpenSelectMapGUI($hParent)
             GUIDelete($hSelectMapGUI)
             Return
         EndIf
-    WEnD
+    WEnd
 EndFunc

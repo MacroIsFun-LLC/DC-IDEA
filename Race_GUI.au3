@@ -36,5 +36,5 @@ Func _OpenRaceGUI($hParent)
             GUIDelete($hRaceGUI)
             Return
         EndIf
-    WEnD
+    WEnd
 EndFunc

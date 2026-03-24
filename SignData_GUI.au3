@@ -18,5 +18,5 @@ Func _OpenSignDataGUI($hParent)
             GUIDelete($hSignGUI)
             Return
         EndIf
-    WEnD
+    WEnd
 EndFunc
