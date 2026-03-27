@@ -1,27 +1,16 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenMapPositionGUI($hParent)
-    Local $hPosGUI = GUICreate("Position", 300, 180, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\MapPosition_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\map_pos_cache.json"
     
-    GUICtrlCreateLabel("XPOS:", 50, 40, 60, 24)
-    GUICtrlCreateInput("", 120, 37, 100, 24, $ES_READONLY)
+    ; 1. Prepare Initial Data (Example coords)
+    Local $sJson = '{"x": "1248", "y": "2592"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUICtrlCreateLabel("YPOS:", 50, 80, 60, 24)
-    GUICtrlCreateInput("", 120, 77, 100, 24, $ES_READONLY)
+    ConsoleWrite("> Launching Map Position UI: " & $sScriptPath & @CRLF)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 100, 130, 100, 32)
-    
-    GUISetState(@SW_SHOW, $hPosGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnOK Then
-            GUIDelete($hPosGUI)
-            Return
-        EndIf
-    WEnd
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
 EndFunc

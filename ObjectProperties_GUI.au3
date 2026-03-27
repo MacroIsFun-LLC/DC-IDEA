@@ -1,24 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenObjectPropertiesGUI($hParent)
-    Local $hPropGUI = GUICreate("Object Properties", 400, 200, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\ObjectProperties_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\obj_props_cache.json"
     
-    GUICtrlCreateLabel("Object Properties Area", 25, 50, 350, 50, BitOR($SS_SUNKEN, $SS_CENTER, $SS_CENTERIMAGE))
-    GUICtrlSetFont(-1, 10, 600)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"properties": "type: dynamic\ndestructible: true\nrespawn_timer: 300"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 40, 140, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 250, 140, 110, 35)
+    ConsoleWrite("> Launching Object Properties UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hPropGUI)
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hPropGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Metadata Synchronized", "The following object template properties were updated via the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

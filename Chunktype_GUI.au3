@@ -1,36 +1,16 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenChunktypeGUI($hParent)
-    Local $hChunkGUI = GUICreate("Chunk Type", 280, 480, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\Chunktype_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\chunk_type_cache.json"
     
-    GUICtrlCreateGroup("Current Chunk", 15, 15, 250, 170)
-    GUICtrlCreateCheckbox("Newbie", 40, 45, 120, 25)
-    GUICtrlCreateCheckbox("Safe Zone", 40, 75, 120, 25)
-    GUICtrlCreateCheckbox("Arena Zone", 40, 105, 120, 25)
-    GUICtrlCreateCheckbox("Player Owned", 40, 135, 150, 25)
-    GUICtrlCreateGroup("", -99, -99, 1, 1)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"current": {"newbie": true, "safe": false}, "default": {"newbie": false, "safe": true}}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnStartPaint = GUICtrlCreateButton("Start Paint Mode", 15, 200, 250, 35)
+    ConsoleWrite("> Launching Chunk Matrix UI: " & $sScriptPath & @CRLF)
     
-    GUICtrlCreateGroup("Default when painting", 15, 250, 250, 170)
-    GUICtrlCreateCheckbox("Newbie", 40, 280, 120, 25)
-    GUICtrlCreateCheckbox("Safe Zone", 40, 310, 120, 25)
-    GUICtrlCreateCheckbox("Arena Zone", 40, 340, 120, 25)
-    GUICtrlCreateCheckbox("Player Owned", 40, 370, 150, 25)
-    GUICtrlCreateGroup("", -99, -99, 1, 1)
-    
-    Local $btnClose = GUICtrlCreateButton("Done", 90, 435, 100, 32)
-    
-    GUISetState(@SW_SHOW, $hChunkGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnClose Then
-            GUIDelete($hChunkGUI)
-            Return
-        EndIf
-    WEnd
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
 EndFunc

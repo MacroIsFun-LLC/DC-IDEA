@@ -1,49 +1,24 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-#include <ComboConstants.au3>
-
 Func _OpenNPCEditorGUI($hParent)
-    Local $hNPCGUI = GUICreate("Npc Editor", 600, 540, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\NPCEditor_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\npc_data.json"
     
-    GUICtrlCreateLabel("Name:", 25, 20, 60, 24)
-    GUICtrlCreateInput("", 95, 18, 280, 24)
+    ; 1. Prepare Initial Data (Mocking current state)
+    Local $sJson = '{"name": "New NPC", "alignment": "Neutral", "activity": "Wander", "shop_type": "None", "stats": {"Strength": "15", "Intelligence": "10", "Dexterity": "12", "Constitution": "14", "Health": "100", "Max Health": "100", "Level": "1", "Mana": "0", "Armorclass": "0"}}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    ; Attributes Group
-    GUICtrlCreateGroup("Attributes", 25, 65, 260, 340)
-    Local $aAttribs = ["Strength", "Intelligence", "Dexterity", "Constitution", "Health", "Max Health", "Level", "Mana", "Armorclass"]
-    For $i = 0 To UBound($aAttribs) - 1
-        GUICtrlCreateLabel($aAttribs[$i] & ":", 40, 105 + ($i * 32), 110, 24)
-        GUICtrlCreateInput("", 160, 102 + ($i * 32), 100, 24, $ES_NUMBER)
-    Next
-    GUICtrlCreateGroup("", -99, -99, 1, 1)
+    ConsoleWrite("> Launching NPC Editor UI: " & $sScriptPath & @CRLF)
     
-    ; Alignment Group
-    GUICtrlCreateGroup("Alignment", 310, 65, 265, 110)
-    Local $btnGood = GUICtrlCreateButton("Good", 325, 105, 75, 35)
-    Local $btnNeutral = GUICtrlCreateButton("Neutral", 405, 105, 75, 35)
-    Local $btnEvil = GUICtrlCreateButton("Evil", 485, 105, 75, 35)
-    GUICtrlCreateGroup("", -99, -99, 1, 1)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    GUICtrlCreateLabel("Activity:", 310, 195, 90, 24)
-    GUICtrlCreateCombo("", 410, 193, 160, 22, $CBS_DROPDOWNLIST)
-    
-    GUICtrlCreateLabel("Shop Type:", 310, 240, 95, 24)
-    GUICtrlCreateCombo("", 410, 238, 100, 22, $CBS_DROPDOWNLIST)
-    Local $btnInventory = GUICtrlCreateButton("Inventory", 515, 238, 65, 26)
-    
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 475, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 465, 475, 110, 35)
-    
-    GUISetState(@SW_SHOW, $hNPCGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hNPCGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        ; In a full implementation, you'd parse this JSON and update your NPC Object
+        MsgBox(64, "NPC Data Saved", "The following NPC data was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

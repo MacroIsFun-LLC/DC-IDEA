@@ -1,27 +1,27 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <StaticConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenSelectMapGUI($hParent)
-    Local $hSelectMapGUI = GUICreate("Select A Map", 550, 520, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\SelectMap_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\select_map_cache.json"
     
-    GUICtrlCreateLabel("Please Select a Map to Open", 40, 20, 470, 30, BitOR($SS_CENTER, $SS_CENTERIMAGE, $SS_SUNKEN))
-    GUICtrlSetFont(-1, 10, 600)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"selected": "Newbie Island", "action": "open"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $lbMaps = GUICtrlCreateList("", 40, 70, 470, 360, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    ConsoleWrite("> Launching Select Map UI: " & $sScriptPath & @CRLF)
     
-    Local $btnNew = GUICtrlCreateButton("New", 25, 460, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 415, 460, 110, 35)
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    GUISetState(@SW_SHOW, $hSelectMapGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Then
-            GUIDelete($hSelectMapGUI)
-            Return
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        ; Check for 'new' action
+        If StringInStr($sResult, '"action": "new"') Then
+            Return _OpenNewMapGUI($hParent)
         EndIf
-    WEnd
+        MsgBox(64, "Map Environment Loaded", "The following map was selected for editing:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

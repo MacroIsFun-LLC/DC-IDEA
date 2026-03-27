@@ -1,23 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-
 Func _OpenSignDataGUI($hParent)
-    Local $hSignGUI = GUICreate("Sign Data", 500, 400, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\SignData_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\sign_cache.json"
     
-    Local $txtSign = GUICtrlCreateEdit("", 20, 20, 460, 300, BitOR($ES_MULTILINE, $ES_WANTRETURN, $WS_VSCROLL))
-    GUICtrlSetFont(-1, 10)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"text": "Beware of the Goblins in the hills!"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnDone = GUICtrlCreateButton("Done", 200, 345, 100, 35)
+    ConsoleWrite("> Launching Sign Data UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hSignGUI)
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnDone Then
-            GUIDelete($hSignGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Signage Engraved", "The following sign text was updated via the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

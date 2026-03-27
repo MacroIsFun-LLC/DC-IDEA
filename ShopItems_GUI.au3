@@ -1,23 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenShopItemsGUI($hParent)
-    Local $hShopItemsGUI = GUICreate("Shop Items", 350, 650, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\ShopItems_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\shop_items_cache.json"
     
-    Local $lbItems = GUICtrlCreateList("", 25, 25, 300, 500, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"selected": "Short Sword"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 590, 120, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 205, 590, 120, 35)
+    ConsoleWrite("> Launching Shop Items UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hShopItemsGUI)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hShopItemsGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Item Registry Synchronized", "The following item selection was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

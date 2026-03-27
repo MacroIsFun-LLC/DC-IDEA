@@ -1,23 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenShopTypeGUI($hParent)
-    Local $hShopTypeGUI = GUICreate("Shop Type", 350, 250, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\ShopType_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\shop_type_cache.json"
     
-    GUICtrlCreateLabel("Shop Type Properties", 25, 80, 300, 30, $SS_CENTER)
-    GUICtrlSetFont(-1, 10, 600)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"type": "General Store", "can_buy": true}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnDone = GUICtrlCreateButton("Done", 125, 180, 100, 35)
+    ConsoleWrite("> Launching Shop Type UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hShopTypeGUI)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnDone Then
-            GUIDelete($hShopTypeGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Merchant Profile Updated", "The following shop type data was modernized via the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

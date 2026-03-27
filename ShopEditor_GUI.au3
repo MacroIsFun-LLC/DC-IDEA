@@ -1,36 +1,24 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-#include <ComboConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenShopEditorGUI($hParent)
-    Local $hShopGUI = GUICreate("Shop Editor", 620, 520, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\ShopEditor_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\shop_data.json"
     
-    GUICtrlCreateLabel("Merchant Name:", 25, 25, 120, 24)
-    GUICtrlCreateInput("", 150, 23, 300, 24)
+    ; 1. Prepare Initial Data (Mocking current state)
+    Local $sJson = '{"merchant_name": "New Shopkeeper", "inventory": [{"name": "Short Sword", "qty": "5"}, {"name": "Healing Potion", "qty": "10"}]}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUICtrlCreateLabel("Standing Inventory:", 25, 70, 180, 24)
-    Local $lbInventory = GUICtrlCreateList("", 25, 100, 300, 300, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    ConsoleWrite("> Launching Shop Editor UI: " & $sScriptPath & @CRLF)
     
-    GUICtrlCreateLabel("Quantity:", 345, 103, 80, 24)
-    GUICtrlCreateInput("1", 430, 100, 80, 24, $ES_NUMBER)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    Local $btnAdd = GUICtrlCreateButton("Add Item", 345, 145, 130, 35)
-    Local $btnRemove = GUICtrlCreateButton("Remove Item", 345, 195, 130, 35)
-    
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 460, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 485, 460, 110, 35)
-    
-    GUISetState(@SW_SHOW, $hShopGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hShopGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        ; In a full implementation, you'd parse this JSON and update your Shop Object
+        MsgBox(64, "Shop Data Saved", "The following Shop data was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

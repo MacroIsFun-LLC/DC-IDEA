@@ -1,22 +1,16 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-
 Func _OpenContainerGUI($hParent)
-    Local $hContGUI = GUICreate("Container", 350, 300, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\Container_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\container_data.json"
     
-    GUICtrlCreateLabel("Container View Placeholder", 50, 100, 250, 30, $SS_CENTER)
-    GUICtrlSetFont(-1, 12, 600)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"items": []}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 125, 230, 100, 35)
+    ConsoleWrite("> Launching Container UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hContGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnOK Then
-            GUIDelete($hContGUI)
-            Return
-        EndIf
-    WEnd
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
 EndFunc

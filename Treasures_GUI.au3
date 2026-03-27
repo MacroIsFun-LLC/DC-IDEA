@@ -1,48 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenTreasuresGUI($hParent)
-    Local $hTreasureGUI = GUICreate("Treasure Type Dialog", 720, 600, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\Treasures_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\treasure_data.json"
     
-    GUICtrlCreateLabel("Treasure Types:", 25, 25, 120, 24)
-    Local $lbTypes = GUICtrlCreateList("", 25, 55, 180, 440, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
-    Local $btnAddType = GUICtrlCreateButton("Add Type", 25, 510, 85, 30)
-    Local $btnDelType = GUICtrlCreateButton("Del Type", 120, 510, 85, 30)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"chance": "15", "min": "50", "max": "500", "items": ["Gold Coins", "Silver Ring", "Healing Herb"]}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    ; Properties Group
-    GUICtrlCreateGroup("Treasure Type Properties", 220, 25, 475, 515)
+    ConsoleWrite("> Launching Treasures UI: " & $sScriptPath & @CRLF)
     
-    Local $lbTreasures = GUICtrlCreateList("", 240, 55, 230, 380, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
-    Local $btnAddTreasure = GUICtrlCreateButton("Add Treasure", 270, 450, 150, 30)
-    Local $btnDelTreasure = GUICtrlCreateButton("Del Treasure", 270, 490, 150, 30)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    GUICtrlCreateLabel("There is a", 490, 240, 70, 24)
-    GUICtrlCreateInput("", 565, 238, 50, 24)
-    GUICtrlCreateLabel("% chance that", 620, 240, 90, 24)
-    
-    GUICtrlCreateLabel("Quantity:", 490, 285, 70, 24)
-    GUICtrlCreateInput("", 565, 282, 50, 24)
-    GUICtrlCreateLabel("to", 620, 285, 25, 24)
-    GUICtrlCreateInput("", 645, 282, 50, 24)
-    
-    GUICtrlCreateLabel("will appear in this treasure type.", 490, 330, 180, 45)
-    
-    GUICtrlCreateGroup("", -99, -99, 1, 1)
-    
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 550, 100, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 595, 550, 100, 35)
-    
-    GUISetState(@SW_SHOW, $hTreasureGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hTreasureGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Treasure Data Saved", "The following Treasure data was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

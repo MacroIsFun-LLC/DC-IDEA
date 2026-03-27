@@ -1,22 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-
 Func _OpenGenericInputGUI($hParent)
-    Local $hInputGUI = GUICreate("Input", 400, 120, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\GenericInput_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\input_cache.json"
     
-    Local $btnOK = GUICtrlCreateButton("OK", 20, 40, 90, 35)
-    Local $txtInput = GUICtrlCreateInput("", 130, 45, 140, 28, $ES_CENTER)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 290, 40, 90, 35)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"title": "Assign Sprite ID", "value": "20448"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUISetState(@SW_SHOW, $hInputGUI)
+    ConsoleWrite("> Launching Generic Input UI: " & $sScriptPath & @CRLF)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hInputGUI)
-            Return
-        EndIf
-    WEnd
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
+    
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Input Received", "The following value was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

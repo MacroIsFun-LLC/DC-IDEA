@@ -1,34 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenShopInventoryGUI($hParent)
-    Local $hShopInvGUI = GUICreate("Shop Inventory Dialog", 480, 550, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\ShopInventory_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\shop_inv_cache.json"
     
-    GUICtrlCreateLabel("Merchant:", 25, 25, 80, 24)
-    GUICtrlCreateInput("", 115, 22, 250, 28, $ES_READONLY)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"merchant": "The General Store", "stock": [{"name": "Short Sword", "qty": 10}, {"name": "Lesser Potion", "qty": 25}]}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUICtrlCreateLabel("Standing Inventory:", 25, 70, 150, 24)
-    Local $lbInventory = GUICtrlCreateList("", 25, 100, 280, 350, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    ConsoleWrite("> Launching Shop Inventory UI: " & $sScriptPath & @CRLF)
     
-    GUICtrlCreateLabel("Quantity:", 330, 133, 80, 24)
-    GUICtrlCreateInput("", 415, 130, 50, 24, $ES_NUMBER)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    Local $btnAdd = GUICtrlCreateButton("Add", 330, 180, 100, 35)
-    Local $btnRemove = GUICtrlCreateButton("Remove", 330, 230, 100, 35)
-    
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 490, 120, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 335, 490, 120, 35)
-    
-    GUISetState(@SW_SHOW, $hShopInvGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hShopInvGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Inventory Updated", "The following stock data was synchronized from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

@@ -1,24 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <ListBoxConstants.au3>
-
 Func _OpenNPCEncounterListGUI($hParent)
-    Local $hListGUI = GUICreate("Npc Encounter List", 350, 520, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\NPCEncounterList_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\npc_enc_cache.json"
     
-    GUICtrlCreateLabel("Choose an NPC from this list:", 25, 20, 300, 24)
-    Local $lbNPCs = GUICtrlCreateList("", 25, 50, 300, 400, BitOR($LBS_NOTIFY, $WS_VSCROLL, $WS_BORDER))
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"selected": "Orc Grunt"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    Local $btnOK = GUICtrlCreateButton("OK", 25, 465, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 215, 465, 110, 35)
+    ConsoleWrite("> Launching NPC Encounter List UI: " & $sScriptPath & @CRLF)
     
-    GUISetState(@SW_SHOW, $hListGUI)
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnOK Then
-            GUIDelete($hListGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Encounter Asset Linked", "The following NPC was selected for the encounter table:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

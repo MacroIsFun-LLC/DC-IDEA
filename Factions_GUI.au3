@@ -1,32 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenFactionsGUI($hParent)
-    Local $hFactGUI = GUICreate("Faction Editor", 450, 400, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call with Data Bridge
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\Factions_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\faction_data.json"
     
-    GUICtrlCreateLabel("Name:", 30, 30, 60, 24)
-    GUICtrlCreateInput("", 100, 28, 300, 24)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"name": "Shadow Guard", "abrev": "SHG"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUICtrlCreateLabel("Abrev:", 30, 75, 60, 24)
-    GUICtrlCreateInput("", 100, 73, 80, 24)
+    ConsoleWrite("> Launching Faction Editor: " & $sScriptPath & @CRLF)
     
-    Local $btnMembers = GUICtrlCreateButton("Members", 50, 130, 150, 35)
-    Local $btnTitles = GUICtrlCreateButton("Titles", 250, 130, 150, 35)
+    ; 2. Launch and Wait
+    Local $iPID = RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    GUICtrlCreateLabel("Faction Properties / Relationships Area", 30, 190, 390, 130, BitOR($SS_SUNKEN, $SS_CENTER, $SS_CENTERIMAGE))
-    
-    Local $btnClose = GUICtrlCreateButton("Done", 175, 345, 100, 35)
-    
-    GUISetState(@SW_SHOW, $hFactGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnClose Then
-            GUIDelete($hFactGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "Faction Data Saved", "The following Faction data was received from the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc

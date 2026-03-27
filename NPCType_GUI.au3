@@ -1,31 +1,23 @@
-#include-once
-#include <GUIConstantsEx.au3>
-#include <WindowsConstants.au3>
-#include <EditConstants.au3>
-#include <StaticConstants.au3>
-
 Func _OpenNPCTypeGUI($hParent)
-    Local $hTypeGUI = GUICreate("NPC Type", 350, 240, -1, -1, BitOR($WS_CAPTION, $WS_SYSMENU), -1, $hParent)
+    ; Modernized Python UI Call
+    Local $sPythonPath = "python"
+    Local $sScriptPath = @ScriptDir & "\PY\NPCType_GUI.py"
+    Local $sDataPath = @ScriptDir & "\PY\npc_type_cache.json"
     
-    GUICtrlCreateLabel("Name:", 40, 30, 60, 24)
-    GUICtrlCreateInput("", 110, 27, 200, 24)
+    ; 1. Prepare Initial Data
+    Local $sJson = '{"name": "Goblins", "x": "32", "y": "32"}'
+    FileDelete($sDataPath)
+    FileWrite($sDataPath, $sJson)
     
-    GUICtrlCreateLabel("X:", 70, 75, 30, 24)
-    GUICtrlCreateInput("", 110, 72, 80, 24, $ES_NUMBER)
+    ConsoleWrite("> Launching NPC Type UI: " & $sScriptPath & @CRLF)
     
-    GUICtrlCreateLabel("Y:", 70, 120, 30, 24)
-    GUICtrlCreateInput("", 110, 117, 80, 24, $ES_NUMBER)
+    ; 2. Launch and Wait
+    RunWait($sPythonPath & ' "' & $sScriptPath & '" "' & $sDataPath & '"', @ScriptDir)
     
-    Local $btnCreate = GUICtrlCreateButton("Create", 30, 180, 110, 35)
-    Local $btnCancel = GUICtrlCreateButton("Cancel", 210, 180, 110, 35)
-    
-    GUISetState(@SW_SHOW, $hTypeGUI)
-    
-    While 1
-        $nMsg = GUIGetMsg()
-        If $nMsg = $GUI_EVENT_CLOSE Or $nMsg = $btnCancel Or $nMsg = $btnCreate Then
-            GUIDelete($hTypeGUI)
-            Return
-        EndIf
-    WEnd
+    ; 3. Read back results
+    If FileExists($sDataPath) Then
+        Local $sResult = FileRead($sDataPath)
+        ConsoleWrite("+ Data Received: " & $sResult & @CRLF)
+        MsgBox(64, "New Species Registered", "The following NPC type data was initialized via the Python UI:" & @CRLF & @CRLF & $sResult)
+    EndIf
 EndFunc
