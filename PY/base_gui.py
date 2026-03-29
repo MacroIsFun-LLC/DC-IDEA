@@ -1,5 +1,6 @@
 import customtkinter as ctk
 import os
+import sys
 
 class BaseGUI(ctk.CTk):
     def __init__(self, title="Dransik ClassiK Editor", width=400, height=300):
@@ -28,11 +29,15 @@ class BaseGUI(ctk.CTk):
                 pass # Fallback for some OS/Environments
 
     def center_window(self, width, height):
-        screen_width = self.winfo_screenwidth()
-        screen_height = self.winfo_screenheight()
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
-        self.geometry(f"{width}x{height}+{x}+{y}")
+        try:
+            self.update_idletasks()
+            screen_width = self.winfo_screenwidth()
+            screen_height = self.winfo_screenheight()
+            x = (screen_width // 2) - (width // 2)
+            y = (screen_height // 2) - (height // 2)
+            self.geometry(f"{width}x{height}+{x}+{y}")
+        except Exception:
+            self.geometry(f"{width}x{height}+100+100") # Safe fallback
 
 if __name__ == "__main__":
     # Test instance

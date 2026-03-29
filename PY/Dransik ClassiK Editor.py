@@ -1,6 +1,7 @@
 import customtkinter as ctk
 import os
 import subprocess
+import sys
 from base_gui import BaseGUI
 
 class MainEditor(BaseGUI):
@@ -30,7 +31,7 @@ class MainEditor(BaseGUI):
         self.appearance_mode_label = ctk.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=11, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["Light", "Dark", "System"],
-                                                                       command=self.change_appearance_mode_event)
+                                                                        command=self.change_appearance_mode_event)
         self.appearance_mode_optionemenu.grid(row=12, column=0, padx=20, pady=(10, 10))
         self.appearance_mode_optionemenu.set("Dark")
 
@@ -51,7 +52,7 @@ class MainEditor(BaseGUI):
         self.status_label = ctk.CTkLabel(self.status_bar, text="Ready", font=ctk.CTkFont(size=10))
         self.status_label.pack(side="left", padx=10)
 
-        # Standard Menu (Native for logic, though it won't style dark on Win11 without hacks)
+        # Standard Menu
         self.setup_menus()
 
     def add_sidebar_button(self, name, text, row, command):
@@ -77,22 +78,30 @@ class MainEditor(BaseGUI):
         
         self.config(menu=menubar)
 
+    def launch_script(self, script_name):
+        script_path = os.path.join(os.path.dirname(__file__), script_name)
+        if os.path.exists(script_path):
+            self.status_label.configure(text=f"Launching {script_name}...")
+            subprocess.Popen([sys.executable, script_path])
+        else:
+            self.status_label.configure(text=f"Error: {script_name} not found!")
+
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
 
-    def open_about(self):
-        # In a real thorough implementation, we'd launch the script or import it.
-        # Since we're moving to independent scripts, we'll launch it.
-        subprocess.Popen(["python", os.path.join(os.path.dirname(__file__), "About_GUI.py")])
-
-    def open_npc_editor(self): self.status_label.configure(text="Opening NPC Editor...")
-    def open_map_editor(self): self.status_label.configure(text="Opening Map Editor...")
-    def open_anim_editor(self): self.status_label.configure(text="Opening Anim Editor...")
-    def open_armor_data(self): self.status_label.configure(text="Opening Armor Data...")
-    def open_shop_editor(self): self.status_label.configure(text="Opening Shop Editor...")
+    def open_about(self): self.launch_script("About_GUI.py")
+    def open_npc_editor(self): self.launch_script("NPCEditor_GUI.py")
+    def open_map_editor(self): self.launch_script("MapEditor_GUI.py")
+    def open_anim_editor(self): self.launch_script("AnimEditor_GUI.py")
+    def open_armor_data(self): self.launch_script("ArmorData_GUI.py")
+    def open_shop_editor(self): self.launch_script("ShopEditor_GUI.py")
     
     def placeholder(self): pass
 
 if __name__ == "__main__":
-    app = MainEditor()
-    app.mainloop()
+    try:
+        app = MainEditor()
+        app.mainloop()
+    except Exception as e:
+        import tkinter.messagebox as msg
+        msg.showerror("Critical Error", f"Application failed to start:\n{str(e)}")
